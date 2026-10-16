@@ -157,14 +157,14 @@ jugador1_tecla_der = pygame.K_d
 jugador1_tecla_disparo = pygame.K_SPACE
 jugador1_ultimo_disparo = 0
 
-# Jugador 2 (Derecha - Azul) - Controles: Flechas + Enter/Control derecho
+# Jugador 2 (Derecha - Azul) - Controles: Flechas + Enter / Flecha Arriba
 jugador2_x = 3 * ANCHO_PANTALLA // 4 - JUGADOR_ANCHO // 2
 jugador2_color = AZUL
 jugador2_color_oscuro = (0, 80, 200)
 jugador2_disparo_color = CYAN
 jugador2_tecla_izq = pygame.K_LEFT
 jugador2_tecla_der = pygame.K_RIGHT
-jugador2_tecla_disparo = pygame.K_RETURN  # Enter
+jugador2_teclas_disparo = [pygame.K_RETURN, pygame.K_UP]  # Enter o Flecha Arriba
 jugador2_ultimo_disparo = 0
 
 # Configuración de disparos compartida
@@ -256,7 +256,7 @@ def dibujar_puntuacion(puntos):
     pantalla.blit(texto_sound, (10, 45))
     # Leyenda de controles
     controles = [
-        "P1: A/D + ESPACIO  |  P2: ←/→ + ENTER",
+        "P1: A/D + ESPACIO  |  P2: ←/→ + ENTER / ↑",
         "Verde = Jugador 1  |  Azul = Jugador 2"
     ]
     for i, linea in enumerate(controles):
@@ -375,8 +375,8 @@ while True:
                 sonido_disparo.play()
                 jugador1_ultimo_disparo = tiempo_actual
 
-        # ========== DISPARO JUGADOR 2 (ENTER) ==========
-        if teclas[jugador2_tecla_disparo]:
+        # ========== DISPARO JUGADOR 2 (ENTER / FLECHA ARRIBA) ==========
+        if any(teclas[k] for k in jugador2_teclas_disparo):
             tiempo_actual = pygame.time.get_ticks()
             if tiempo_actual - jugador2_ultimo_disparo >= CADENCIA_DISPARO:
                 disparo_x = jugador2_x + JUGADOR_ANCHO // 2 - DISPARO_ANCHO // 2
